@@ -1,5 +1,10 @@
 from dotenv import load_dotenv
 import os
+import sys
+
+# Set PYSPARK environment variables
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
 # Load environment variables from .env file
 load_dotenv()

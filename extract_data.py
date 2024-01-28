@@ -2,10 +2,6 @@ from pyspark.sql import SparkSession
 import config
 import boto3
 import json
-import sys
-
-# Toggle pycache logging
-sys.dont_write_bytecode = True
 
 # Initialize SparkSession
 spark = SparkSession.builder \
@@ -24,8 +20,11 @@ s3_object = s3.get_object(Bucket=config.s3_bucket, Key=config.json_file_key)
 json_data = s3_object['Body'].read().decode('utf-8')
 parsed_json = json.loads(json_data)
 
-# Log all listings from JSON object
-print(parsed_json['listings'])
+# Create DataFrame from parsed JSON 
+df = spark.createDataFrame(parsed_json['listings'])
+
+# Show the DataFrame
+df.show()
 
 # Close SparkSession
 spark.stop()
